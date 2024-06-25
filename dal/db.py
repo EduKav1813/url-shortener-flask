@@ -25,3 +25,9 @@ def create_url(url: str):
 
 def get_all_urls():
     return Url.query.all()
+
+
+def get_url_by_code(code: str) -> str:
+    result = Url.query.filter(Url.code == code).first_or_404()
+    if isinstance(result, Url):
+        return result.original_url

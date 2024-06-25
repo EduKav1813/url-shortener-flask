@@ -3,7 +3,7 @@ from pathlib import Path
 from flask import Flask
 
 from dal.db import db
-from routes import index, register
+from routes import index, redirect, register
 
 
 def create_app():
@@ -27,5 +27,6 @@ if __name__ == "__main__":
 
     app.register_blueprint(index.bp)
     app.register_blueprint(register.bp)
+    app.register_blueprint(redirect.bp)
 
     app.run(debug=True)
