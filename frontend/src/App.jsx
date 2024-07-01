@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import "./App.css";
+import config from "./config";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [longUrl, setLongUrl] = useState("");
+  const [shortUrl, setShortUrl] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setShortUrl("");
+
+    try {
+      const response = await fetch(config.apiUrl + "register/", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ url: longUrl }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to shorten URL");
+      }
+
+      const data = await response.json();
+      setShortUrl(data.shortUrl);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <h1>URL Shortener</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="longUrl">Enter URL to shorten:</label>
+          <input
+            type="url"
+            id="longUrl"
+            value={longUrl}
+            onChange={(e) => setLongUrl(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Shorten URL</button>
+      </form>
+      {shortUrl && (
+        <div>
+          <h2>Shortened URL:</h2>
+          <a href={shortUrl} target="_blank" rel="noopener noreferrer">
+            {shortUrl}
+          </a>
+        </div>
+      )}
+      {error && <p className="error">{error}</p>}
+    </div>
+  );
 }
 
-export default App
+export default App;
