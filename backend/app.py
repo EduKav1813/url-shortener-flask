@@ -1,16 +1,18 @@
+import logging
 from pathlib import Path
 
 from dal.db import db
 from flask import Flask
 from routes import index, redirect, register
 
+DATABASE_PATH = f"sqlite:///{Path(__file__).parent / 'instance/test.db'}"
+
 
 def create_app():
     app = Flask(__name__)
     app.config["DEBUG"] = True
-    app.config[
-        "SQLALCHEMY_DATABASE_URI"
-    ] = f"sqlite:///{Path(__file__) / 'dal/instance/test.db'}"
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_PATH
+    logging.info(f"Setup database at: {DATABASE_PATH}")
     db.init_app(app)
     return app
 
@@ -21,6 +23,7 @@ def setup_database(app):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     app = create_app()
     setup_database(app)
 
