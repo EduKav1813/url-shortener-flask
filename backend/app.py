@@ -1,8 +1,7 @@
 from pathlib import Path
 
-from flask import Flask
-
 from dal.db import db
+from flask import Flask
 from routes import index, redirect, register
 
 
@@ -11,7 +10,7 @@ def create_app():
     app.config["DEBUG"] = True
     app.config[
         "SQLALCHEMY_DATABASE_URI"
-    ] = f"sqlite:///{Path(__file__).parent / 'test.db'}"
+    ] = f"sqlite:///{Path(__file__) / 'dal/instance/test.db'}"
     db.init_app(app)
     return app
 

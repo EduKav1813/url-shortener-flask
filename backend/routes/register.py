@@ -1,6 +1,5 @@
-from flask import Blueprint, jsonify, request
-
 from dal.db import create_url
+from flask import Blueprint, jsonify, request
 
 bp = Blueprint("register", __name__, url_prefix="/register")
 

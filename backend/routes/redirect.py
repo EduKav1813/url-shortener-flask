@@ -1,6 +1,5 @@
-from flask import Blueprint, redirect
-
 from dal.db import get_url_by_code
+from flask import Blueprint, redirect
 
 bp = Blueprint("redirect", __name__, url_prefix="/redirect")
 
