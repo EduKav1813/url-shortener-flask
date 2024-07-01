@@ -17,10 +17,16 @@ def _generate_code() -> str:
 
 
 def create_url(url: str):
-    new_url = Url(original_url=url, code=_generate_code())
-    db.session.add(new_url)
-    db.session.commit()
-    return new_url
+    existing_code = (
+        db.session.query(Url).filter(Url.original_url == url).first()
+    )
+    if existing_code:
+        return existing_code
+    else:
+        new_url = Url(original_url=url, code=_generate_code())
+        db.session.add(new_url)
+        db.session.commit()
+        return new_url
 
 
 def get_all_urls():
