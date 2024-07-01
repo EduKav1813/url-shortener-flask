@@ -5,12 +5,14 @@ import config from "./config";
 function App() {
   const [longUrl, setLongUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
+  const [code, setCode] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setShortUrl("");
+    setCode("");
 
     try {
       const response = await fetch(config.apiUrl + "register/", {
@@ -28,6 +30,7 @@ function App() {
 
       const data = await response.json();
       setShortUrl(data.shortUrl);
+      setCode(config.apiUrl + "redirect/" + data.code);
     } catch (error) {
       setError(error.message);
     }
@@ -58,6 +61,7 @@ function App() {
         </div>
       )}
       {error && <p className="error">{error}</p>}
+      {code && <p className="code">{code}</p>}
     </div>
   );
 }
