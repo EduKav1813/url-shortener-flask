@@ -1,11 +1,9 @@
 import logging
-from pathlib import Path
 
 from dal.db import db
 from flask import Flask
-from routes import index, redirect, register
-
-DATABASE_PATH = f"sqlite:///{Path(__file__).parent / 'instance/test.db'}"
+from paths import DATABASE_PATH
+from routes import redirect, register
 
 
 def create_app():
@@ -27,7 +25,6 @@ if __name__ == "__main__":
     app = create_app()
     setup_database(app)
 
-    app.register_blueprint(index.bp)
     app.register_blueprint(register.bp)
     app.register_blueprint(redirect.bp)
 
