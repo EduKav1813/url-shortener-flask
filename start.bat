@@ -7,7 +7,7 @@ REM Install Python dependencies
 python -m pip install -r requirements.txt
 
 REM Start the Flask backend in a new command prompt window
-start cmd /k "python backend/app.py"
+start cmd /k "python backend/run.py"
 
 REM Navigate to the frontend directory and start the React development server
 cd frontend
