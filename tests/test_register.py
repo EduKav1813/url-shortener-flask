@@ -21,6 +21,10 @@ class TestRegister:
             response.json["code"] != ""
         ), "Generated short code should NOT be empty"
 
+    def test_register_no_url(self, client):
+        response = client.post("register/", headers=self.headers)
+        assert response.status_code == 400, "Response should return code 400"
+
     def test_register_url_twice(self, client):
         # Register the url for the first time
         first_response = self._register_url(
