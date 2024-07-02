@@ -1,31 +1,27 @@
 import logging
+import os
 
 from dal.db import db
 from flask import Flask
-from paths import DATABASE_PATH
 from routes import redirect, register
 
 
-def create_app():
-    app = Flask(__name__)
-    app.config["DEBUG"] = True
-    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_PATH
-    logging.info(f"Setup database at: {DATABASE_PATH}")
-    db.init_app(app)
-    return app
+def delete_database(database_path):
+    if os.path.exists(database_path):
+        os.remove(database_path)
 
 
-def setup_database(app):
-    with app.app_context():
-        db.create_all()
-
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    app = create_app()
-    setup_database(app)
-
+def register_blueprits(app):
     app.register_blueprint(register.bp)
     app.register_blueprint(redirect.bp)
 
-    app.run(debug=True)
+
+def create_app(config):
+    app = Flask(__name__)
+    app.config["DEBUG"] = True
+    app.config["SQLALCHEMY_DATABASE_URI"] = config.SQLALCHEMY_DATABASE_URI
+    logging.info(f"Setup database at: {config.SQLALCHEMY_DATABASE_URI}")
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()
+    return app
