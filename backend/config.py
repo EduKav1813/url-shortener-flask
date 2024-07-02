@@ -11,6 +11,4 @@ class Config:
 
 class TestConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = (
-        f"sqlite:///{Path(__file__).parent / 'instance/test.db'}"
-    )
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
