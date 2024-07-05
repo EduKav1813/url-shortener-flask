@@ -11,7 +11,7 @@ start cmd /k "python backend/run.py"
 
 REM Navigate to the frontend directory and start the React development server
 cd frontend
-start cmd /k "npm run dev"
+start cmd /k "npm install & npm run dev"
 
 REM Navigate back to the root directory
 cd ..
