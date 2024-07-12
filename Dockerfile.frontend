@@ -1,0 +1,8 @@
+FROM node:20.8.0
+WORKDIR /app
+COPY ./frontend /app
+# Port for React frontend
+EXPOSE 5173
+
+RUN npm install
+CMD ["npm", "run", "dev"]
